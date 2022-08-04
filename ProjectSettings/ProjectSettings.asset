@@ -155,6 +155,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
+    Android: com.DefaultCompany.FarmingWarrior
     Standalone: com.DefaultCompany.FarmingWarrior
   buildNumber:
     Standalone: 0
