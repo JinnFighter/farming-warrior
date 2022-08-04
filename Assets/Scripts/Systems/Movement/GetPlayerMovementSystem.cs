@@ -1,6 +1,4 @@
 using Leopotam.Ecs;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static InputActions;
 
@@ -13,14 +11,29 @@ namespace FarmingWarrior
 
         public void Run()
         {
-            if(_playerActions.Move.WasPerformedThisFrame())
+            var isPressed = _playerActions.Move.WasPressedThisFrame();
+            var isReleased = _playerActions.Move.WasReleasedThisFrame();
+
+            if(isPressed || isReleased)
             {
-                var moveDirection = _playerActions.Move.ReadValue<Vector2>();
                 foreach(var index in _filter)
                 {
                     var entity = _filter.GetEntity(index);
-                    ref var moveEvent = ref entity.Get<MoveEvent>();
-                    moveEvent.Direction = moveDirection;
+                    if(isPressed)
+                    {
+                        if(!entity.Has<MoveEvent>())
+                        {
+                            ref var moveEvent = ref entity.Get<MoveEvent>();
+                            moveEvent.Direction = _playerActions.Move.ReadValue<Vector2>();
+                        }
+                    }
+                    else if(isReleased)
+                    {
+                        if (entity.Has<MoveEvent>())
+                        {
+                            entity.Del<MoveEvent>();
+                        }
+                    }
                 }
             }
         }

@@ -67,8 +67,6 @@ namespace FarmingWarrior
 
         private void AddOneFrameComponents()
         {
-            _systems
-                .OneFrame<MoveEvent>();
         }
     }
 }
