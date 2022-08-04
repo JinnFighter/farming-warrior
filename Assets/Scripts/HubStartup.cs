@@ -1,13 +1,17 @@
 using Leopotam.Ecs;
 using UnityEngine;
 using Voody.UniLeo;
+using Zenject;
 
 namespace FarmingWarrior
 {
     sealed class HubStartup : MonoBehaviour 
     {
-        EcsWorld _world;
-        EcsSystems _systems;
+        private EcsWorld _world;
+        private EcsSystems _systems;
+
+        [Inject]
+        private InputActions _inputActions;
 
         void Start() 
         {
@@ -49,12 +53,14 @@ namespace FarmingWarrior
 
         private void AddSystems()
         {
-
+            _systems
+                .Add(new GetPlayerMovementSystem());
         }
 
         private void AddInjections()
         {
-
+            _systems
+                .Inject(_inputActions.Player);
         }
 
         private void AddOneFrameComponents()
