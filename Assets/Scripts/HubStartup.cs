@@ -17,9 +17,12 @@ namespace FarmingWarrior
             Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create(_world);
             Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(_systems);
 #endif
-            _systems
-                .ConvertScene()
-                .Init ();
+            AddExtensions();
+            AddSystems();
+            AddOneFrameComponents();
+            AddInjections();
+
+            _systems.Init();
         }
 
         void Update()
@@ -36,6 +39,28 @@ namespace FarmingWarrior
                 _world.Destroy();
                 _world = null;
             }
+        }
+
+        private void AddExtensions()
+        {
+            _systems
+                .ConvertScene();
+        }
+
+        private void AddSystems()
+        {
+
+        }
+
+        private void AddInjections()
+        {
+
+        }
+
+        private void AddOneFrameComponents()
+        {
+            _systems
+                .OneFrame<MoveEvent>();
         }
     }
 }
