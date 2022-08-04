@@ -15,6 +15,7 @@ namespace FarmingWarrior
 
         void Start() 
         {
+            _inputActions.Enable();
             _world = new EcsWorld();
             _systems = new EcsSystems(_world);
 #if UNITY_EDITOR
@@ -54,7 +55,8 @@ namespace FarmingWarrior
         private void AddSystems()
         {
             _systems
-                .Add(new GetPlayerMovementSystem());
+                .Add(new GetPlayerMovementSystem())
+                .Add(new MoveMovableSystem());
         }
 
         private void AddInjections()
