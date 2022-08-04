@@ -5,7 +5,7 @@ public class BootLoader : MonoBehaviour
 {
     public async void LoadScene(string sceneName)
     {
-        var handle = Addressables.LoadSceneAsync(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+        var handle = Addressables.LoadSceneAsync(sceneName);
         await handle.Task;
     }
 }
