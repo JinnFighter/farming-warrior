@@ -5,7 +5,7 @@ namespace FarmingWarrior
 {
     public class MoveMovableSystem : IEcsRunSystem
     {
-        private readonly EcsFilter<Movable, MovableView, MoveEvent> _filter = null;
+        private readonly EcsFilter<Movable, MovableView, MoveEvent>.Exclude<MoveDisabled> _filter = null;
 
         public void Run()
         {
