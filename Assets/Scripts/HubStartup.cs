@@ -1,4 +1,5 @@
 using Leopotam.Ecs;
+using System;
 using UnityEngine;
 using Voody.UniLeo;
 using Zenject;
@@ -26,7 +27,8 @@ namespace FarmingWarrior
             Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(_systems);
 #endif
             AddExtensions();
-            AddSystems();
+            AddInitSystems();
+            AddRunSystems();
             AddOneFrameComponents();
             AddInjections();
 
@@ -55,7 +57,13 @@ namespace FarmingWarrior
                 .ConvertScene();
         }
 
-        private void AddSystems()
+        private void AddInitSystems()
+        {
+            _systems
+                .Add(new InitPlayerCameraSystem());
+        }
+
+        private void AddRunSystems()
         {
             _systems
                 .Add(new GetPlayerMovementSystem())
