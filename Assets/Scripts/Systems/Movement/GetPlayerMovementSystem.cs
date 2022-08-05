@@ -11,28 +11,22 @@ namespace FarmingWarrior
 
         public void Run()
         {
-            var isPressed = _playerActions.Move.WasPressedThisFrame();
-            var isReleased = _playerActions.Move.WasReleasedThisFrame();
-
-            if(isPressed || isReleased)
+            if(_playerActions.Move.WasPerformedThisFrame())
             {
+                var axisDirection = _playerActions.Move.ReadValue<Vector2>();
+                var isMoving = axisDirection != Vector2.zero;
+                var moveDirection = new Vector3(axisDirection.x, 0, axisDirection.y);
                 foreach(var index in _filter)
                 {
                     var entity = _filter.GetEntity(index);
-                    if(isPressed)
+                    if (isMoving)
                     {
-                        if(!entity.Has<MoveEvent>())
-                        {
-                            ref var moveEvent = ref entity.Get<MoveEvent>();
-                            moveEvent.Direction = _playerActions.Move.ReadValue<Vector2>();
-                        }
+                        ref var moveEvent = ref entity.Get<MoveEvent>();
+                        moveEvent.Direction = moveDirection;
                     }
-                    else if(isReleased)
+                    else
                     {
-                        if (entity.Has<MoveEvent>())
-                        {
-                            entity.Del<MoveEvent>();
-                        }
+                        entity.Del<MoveEvent>();
                     }
                 }
             }
