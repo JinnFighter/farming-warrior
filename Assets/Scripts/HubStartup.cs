@@ -67,7 +67,8 @@ namespace FarmingWarrior
         {
             _systems
                 .Add(new GetPlayerMovementSystem())
-                .Add(new MoveMovableSystem());
+                .Add(new MoveMovableSystem())
+                .Add(new MovePlayerCameraSystem());
         }
 
         private void AddInjections()
