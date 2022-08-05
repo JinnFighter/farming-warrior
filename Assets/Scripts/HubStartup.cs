@@ -13,6 +13,9 @@ namespace FarmingWarrior
         [Inject]
         private InputActions _inputActions;
 
+        [Inject]
+        private Camera _playerCamera;
+
         void Start() 
         {
             _inputActions.Enable();
@@ -62,7 +65,8 @@ namespace FarmingWarrior
         private void AddInjections()
         {
             _systems
-                .Inject(_inputActions.Player);
+                .Inject(_inputActions.Player)
+                .Inject(_playerCamera);
         }
 
         private void AddOneFrameComponents()
