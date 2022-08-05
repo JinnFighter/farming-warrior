@@ -1,25 +1,33 @@
 using Leopotam.Ecs;
 using UnityEngine;
 using Voody.UniLeo;
+using Zenject;
 
 namespace FarmingWarrior
 {
     sealed class HubStartup : MonoBehaviour 
     {
-        EcsWorld _world;
-        EcsSystems _systems;
+        private EcsWorld _world;
+        private EcsSystems _systems;
+
+        [Inject]
+        private InputActions _inputActions;
 
         void Start() 
         {
+            _inputActions.Enable();
             _world = new EcsWorld();
             _systems = new EcsSystems(_world);
 #if UNITY_EDITOR
             Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create(_world);
             Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(_systems);
 #endif
-            _systems
-                .ConvertScene()
-                .Init ();
+            AddExtensions();
+            AddSystems();
+            AddOneFrameComponents();
+            AddInjections();
+
+            _systems.Init();
         }
 
         void Update()
@@ -36,6 +44,29 @@ namespace FarmingWarrior
                 _world.Destroy();
                 _world = null;
             }
+        }
+
+        private void AddExtensions()
+        {
+            _systems
+                .ConvertScene();
+        }
+
+        private void AddSystems()
+        {
+            _systems
+                .Add(new GetPlayerMovementSystem())
+                .Add(new MoveMovableSystem());
+        }
+
+        private void AddInjections()
+        {
+            _systems
+                .Inject(_inputActions.Player);
+        }
+
+        private void AddOneFrameComponents()
+        {
         }
     }
 }
